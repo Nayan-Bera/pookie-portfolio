@@ -1,6 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  ABOUT_TEXT,
+  CONTACT,
+  EXPERIENCE,
+  HERO_CONTENT,
+  PROJECTS,
+  techs,
+} from "../constant/data";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Theme = "dark" | "light";
@@ -23,156 +31,6 @@ interface ClickSeqItem {
 }
 
 // ─── Global keyframes injected once ──────────────────────────────────────────
-const GLOBAL_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-  :root {
-    --pink-100:#fff0f5; --pink-200:#ffd6e7; --pink-300:#ffb3cc;
-    --pink-400:#ff85aa; --pink-500:#f06292; --pink-600:#e91e8c;
-    --lavender:#e8d5f5;
-    --bg:#1a0a10; --bg2:#22101a; --bg3:#2d1520;
-    --surface:rgba(255,182,193,0.07); --surface2:rgba(255,182,193,0.12);
-    --border:rgba(255,182,193,0.15);
-    --text:#fdf0f5; --text2:#e0b0c8; --text3:#b88aaa;
-    --accent:#ff85aa; --glow:rgba(240,98,146,0.3);
-    --card-bg:rgba(255,182,193,0.06);
-  }
-  [data-theme="light"] {
-    --bg:#fff5f8; --bg2:#ffeef4; --bg3:#ffdce8;
-    --surface:rgba(180,40,80,0.07); --surface2:rgba(180,40,80,0.12);
-    --border:rgba(180,40,80,0.18);
-    --text:#1a0510; --text2:#4a1020; --text3:#7a2040;
-    --accent:#c0306a; --glow:rgba(180,40,80,0.15);
-    --card-bg:rgba(180,40,80,0.05);
-  }
-
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    transition: background 0.4s, color 0.4s;
-  }
-  body::before {
-    content:''; position:fixed; inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events:none; z-index:0; opacity:0.4;
-  }
-  ::-webkit-scrollbar { width:6px; }
-  ::-webkit-scrollbar-track { background:var(--bg); }
-  ::-webkit-scrollbar-thumb { background:#ff85aa; border-radius:3px; }
-
-  @keyframes blobFloat {
-    0%,100%{transform:translate(0,0) scale(1);}
-    33%{transform:translate(30px,-20px) scale(1.05);}
-    66%{transform:translate(-20px,15px) scale(.95);}
-  }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
-  @keyframes fadeSlideUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
-  @keyframes glowPulse { 0%,100%{opacity:.7;transform:scale(1);} 50%{opacity:1;transform:scale(1.1);} }
-  @keyframes teddyFloat {
-    0%,100%{transform:translateX(-50%) translateY(0) rotate(0deg);}
-    50%{transform:translateX(-50%) translateY(-12px) rotate(1deg);}
-  }
-  @keyframes teddyDance {
-    0%,100%{transform:translateX(-50%) translateY(0) rotate(0deg);}
-    25%{transform:translateX(-46%) translateY(-8px) rotate(-7deg);}
-    75%{transform:translateX(-54%) translateY(-8px) rotate(7deg);}
-  }
-  @keyframes teddySpin {
-    0%{transform:translateX(-50%) rotate(0deg) scale(1);}
-    50%{transform:translateX(-50%) rotate(180deg) scale(1.15);}
-    100%{transform:translateX(-50%) rotate(360deg) scale(1);}
-  }
-  @keyframes teddyBounce {
-    0%,100%{transform:translateX(-50%) translateY(0) scale(1);}
-    50%{transform:translateX(-50%) translateY(-22px) scale(1.06);}
-  }
-  @keyframes heartFloat {
-    0%{opacity:1;transform:translateY(0) scale(1) rotate(0deg);}
-    100%{opacity:0;transform:translateY(-90px) scale(.4) rotate(20deg);}
-  }
-  @keyframes teddyFloatSmall {
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-  }
-  @keyframes miniFloat {
-    0%,100%{transform:translateY(0) rotate(0deg); opacity:.25;}
-    50%{transform:translateY(-18px) rotate(4deg); opacity:.45;}
-  }
-
-  .teddy-anim-float { animation: teddyFloat 4s ease-in-out infinite; }
-  .teddy-anim-dance { animation: teddyDance .5s ease-in-out 3; }
-  .teddy-anim-spin  { animation: teddySpin .65s ease-in-out 1; }
-  .teddy-anim-bounce{ animation: teddyBounce .4s ease-in-out 3; }
-
-  .heart-particle {
-    position:fixed; pointer-events:none; z-index:9999; font-size:1.2rem;
-    animation: heartFloat 1.3s ease-out forwards;
-  }
-  .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease,transform .7s ease; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
-
-  .nav-link-item { color:var(--text2); text-decoration:none; font-size:.9rem; font-weight:500; transition:color .2s; }
-  .nav-link-item:hover { color:var(--accent); }
-
-  .section-label::after {
-    content:''; flex:1; max-width:60px; height:1px; background:var(--accent); opacity:.5;
-  }
-  .about-card::before {
-    content:''; position:absolute; top:0; left:0; right:0; height:3px;
-    background:linear-gradient(90deg,#ff85aa,#e8d5f5); opacity:0; transition:opacity .3s;
-  }
-  .about-card:hover::before { opacity:1; }
-  .project-card::after {
-    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
-    background:linear-gradient(90deg,transparent,#ff85aa,transparent); opacity:0; transition:opacity .3s;
-  }
-  .project-card:hover::after { opacity:1; }
-
-  [data-theme="light"] .tech-tag {
-    background: rgba(180,40,80,.1);
-    border-color: rgba(180,40,80,.2);
-  }
-  [data-theme="light"] #teddy-bubble { background:#fff0f5; color:#7a1030; border-color:rgba(180,40,80,.25); }
-  [data-theme="light"] .email-badge { background:rgba(180,40,80,.08); border-color:rgba(180,40,80,.22); }
-  [data-theme="light"] nav { background:rgba(255,240,248,0.9); }
-
-  #teddy-bubble {
-    position:absolute; top:-14px; right:10px;
-    background:white; color:#a0204a;
-    border-radius:1.2rem 1.2rem 1.2rem 0;
-    padding:.45rem .9rem; font-size:.8rem; font-weight:700;
-    box-shadow:0 4px 18px rgba(0,0,0,.18);
-    opacity:0; transform:scale(.5) translateY(10px);
-    transition:all .25s cubic-bezier(.34,1.56,.64,1);
-    pointer-events:none; white-space:nowrap; z-index:10; border:1px solid rgba(240,98,146,.2);
-  }
-  #teddy-bubble.show { opacity:1; transform:scale(1) translateY(0); }
-  #teddy-mood {
-    position:absolute; bottom:130px; left:50%; transform:translateX(-50%);
-    font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--accent); opacity:0; transition:opacity .3s; white-space:nowrap;
-  }
-  #teddy-mood.show { opacity:1; }
-
-  @media(max-width:1024px){
-    .hero-illustration { display:none; }
-    .hero-grid { grid-template-columns:1fr !important; padding:6rem 3rem 3rem !important; }
-    .about-grid { grid-template-columns:1fr !important; gap:2.5rem !important; }
-    .projects-grid { grid-template-columns:1fr !important; }
-    section { padding:4rem 3rem !important; }
-    footer { flex-direction:column !important; gap:1rem !important; text-align:center !important; padding:2rem 3rem !important; }
-  }
-  @media(max-width:640px){
-    .hero-grid { padding:5rem 1.5rem 2rem !important; }
-    section { padding:3rem 1.5rem !important; }
-    .nav-links-list { display:none !important; }
-    .tech-grid-2 { grid-template-columns:1fr !important; }
-    .contact-card-inner { padding:2.5rem 1.5rem !important; }
-  }
-`;
 
 // ─── Mood Definitions ─────────────────────────────────────────────────────────
 const moodDefs: Record<MoodKey, MoodDef> = {
@@ -534,16 +392,6 @@ export default function Portfolio() {
     currentMoodRef.current = currentMood;
   }, [currentMood]);
 
-  // Inject global CSS
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = GLOBAL_CSS;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
-
   // Scroll reveal
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -733,75 +581,64 @@ export default function Portfolio() {
     <>
       {/* ── NAV ── */}
       <nav
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          padding: "1rem 2rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backdropFilter: "blur(20px)",
-          background: "rgba(26,10,16,0.78)",
-          borderBottom: "1px solid var(--border)",
-          transition: "background 0.4s",
-        }}
+        className=" fixed top-0 left-0 right-0 z-100 px-8 py-4 flex items-center justify-between
+         backdrop-blur-2xl border-b border-(--border) bg-[rgba(26,10,16,0.78)] transition-colors duration-400"
       >
+        {/* Logo */}
         <div
-          style={{
-            fontFamily: "'Playfair Display',serif",
-            fontSize: "1.5rem",
-            fontWeight: 700,
-            background: "linear-gradient(135deg,#ffb3cc,#f06292)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
+          className=" font-['Playfair_Display'] text-2xl font-bold bg-linear-to-br
+           from-pink-200 to-pink-500 bg-clip-text text-transparent tracking-tight "
         >
-          NB.
+          sp.
         </div>
+
+        {/* Nav Links */}
         <ul
-          className="nav-links-list"
-          style={{
-            display: "flex",
-            gap: "2rem",
-            listStyle: "none",
-            alignItems: "center",
-            margin: 0,
-            padding: 0,
-          }}
+          className="
+      hidden md:flex
+      items-center gap-8
+      text-sm font-medium
+      text-[var(--text2)]
+    "
         >
           {["about", "projects", "experience", "contact"].map((s) => (
             <li key={s}>
               <a
                 href={`#${s}`}
-                className="nav-link-item"
-                style={{ textTransform: "capitalize" }}
+                className="
+            capitalize
+            relative
+            transition-all duration-300
+            hover:text-[var(--accent)]
+            after:absolute after:left-0 after:-bottom-1
+            after:h-[2px] after:w-0
+            after:bg-[var(--accent)]
+            after:transition-all after:duration-300
+            hover:after:w-full
+          "
               >
                 {s}
               </a>
             </li>
           ))}
         </ul>
+
+        {/* Theme Toggle */}
         <button
           onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
           title="Toggle theme"
-          style={{
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
-            borderRadius: "50%",
-            width: 36,
-            height: 36,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "1rem",
-            color: "var(--text)",
-            transition: "all .3s",
-          }}
+          className="
+      w-9 h-9
+      flex items-center justify-center
+      rounded-full
+      border
+      border-(--border)
+      bg-[var(--surface)]
+      text-[var(--text)]
+      transition-all duration-300
+      hover:bg-[var(--surface2)]
+      hover:scale-105
+    "
         >
           {theme === "dark" ? "☀️" : "🌙"}
         </button>
@@ -810,207 +647,125 @@ export default function Portfolio() {
       {/* ── HERO ── */}
       <section
         id="hero"
-        className="hero-grid"
-        style={{
-          minHeight: "100vh",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          alignItems: "center",
-          padding: "6rem 6rem 3rem",
-          position: "relative",
-          overflow: "hidden",
-          gap: "3rem",
-        }}
+        className="
+    relative overflow-hidden
+    min-h-screen
+    grid grid-cols-1 lg:grid-cols-2
+    items-center
+    gap-12
+    px-6 lg:px-24
+    pt-28 pb-16
+  "
       >
         {/* Blobs */}
-        <div
-          style={{
-            position: "absolute",
-            borderRadius: "50%",
-            filter: "blur(80px)",
-            opacity: 0.15,
-            pointerEvents: "none",
-            width: 500,
-            height: 500,
-            background: "radial-gradient(circle,#f06292,#e91e8c)",
-            top: -100,
-            left: -100,
-            animation: "blobFloat 8s ease-in-out infinite",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            borderRadius: "50%",
-            filter: "blur(80px)",
-            opacity: 0.15,
-            pointerEvents: "none",
-            width: 400,
-            height: 400,
-            background: "radial-gradient(circle,#ce93d8,#9c27b0)",
-            bottom: -50,
-            right: 200,
-            animation: "blobFloat 10s ease-in-out infinite reverse",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            borderRadius: "50%",
-            filter: "blur(80px)",
-            opacity: 0.15,
-            pointerEvents: "none",
-            width: 300,
-            height: 300,
-            background: "radial-gradient(circle,#ffb3cc,#f06292)",
-            top: "40%",
-            right: -50,
-            animation: "blobFloat 12s ease-in-out infinite",
-          }}
-        />
+        <div className="absolute -top-24 -left-24 w-[500px] h-[500px] rounded-full blur-[80px] opacity-15 pointer-events-none bg-gradient-to-br from-pink-400 to-pink-600 animate-[blobFloat_8s_ease-in-out_infinite]" />
 
-        {/* Hero content */}
-        <div style={{ position: "relative", zIndex: 1 }}>
+        <div className="absolute -bottom-12 right-40 w-[400px] h-[400px] rounded-full blur-[80px] opacity-15 pointer-events-none bg-gradient-to-br from-purple-300 to-purple-600 animate-[blobFloat_10s_ease-in-out_infinite_reverse]" />
+
+        <div className="absolute top-[40%] -right-12 w-[300px] h-[300px] rounded-full blur-[80px] opacity-15 pointer-events-none bg-gradient-to-br from-pink-200 to-pink-400 animate-[blobFloat_12s_ease-in-out_infinite]" />
+
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-xl">
+          {/* Availability Badge */}
           <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: ".5rem",
-              background: "var(--surface)",
-              border: "1px solid var(--border)",
-              borderRadius: 100,
-              padding: ".4rem 1rem",
-              fontSize: ".8rem",
-              color: "var(--accent)",
-              marginBottom: "1.5rem",
-              animation: "fadeSlideUp .6s ease both",
-            }}
+            className="
+      inline-flex items-center gap-2
+      px-4 py-1.5
+      rounded-full
+      text-xs font-medium
+      border
+      bg-[var(--surface)]
+      border-[var(--border)]
+      text-[var(--accent)]
+      mb-6
+      animate-[fadeSlideUp_.6s_ease_both]
+    "
           >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                background: "#4ade80",
-                borderRadius: "50%",
-                boxShadow: "0 0 8px #4ade80",
-                animation: "pulse 2s infinite",
-              }}
-            />
+            <span className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_#4ade80] animate-pulse" />
             Available for Opportunities
           </div>
+
+          {/* Name */}
           <h1
-            style={{
-              fontFamily: "'Playfair Display',serif",
-              fontSize: "clamp(3rem,6vw,5.5rem)",
-              fontWeight: 900,
-              lineHeight: 1.05,
-              marginBottom: ".5rem",
-              animation: "fadeSlideUp .7s ease .1s both",
-            }}
+            className="
+      font-['Playfair_Display']
+      font-black
+      leading-[1.05]
+      mb-3
+      text-[clamp(3rem,6vw,5.5rem)]
+      animate-[fadeSlideUp_.7s_ease_.1s_both]
+    "
           >
-            <span
-              style={{
-                background: gradientText,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Nayan
-            </span>
-            <br />
-            <span
-              style={{
-                background: gradientText,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Bera
+            <span className="bg-gradient-to-br from-pink-200 via-pink-400 to-purple-300 bg-clip-text text-transparent">
+              Srilekha
+            </span>{" "}
+            <span className="bg-gradient-to-br from-pink-200 via-pink-400 to-purple-300 bg-clip-text text-transparent">
+              Paul
             </span>
           </h1>
+
+          {/* Title */}
           <div
-            style={{
-              fontSize: "1.1rem",
-              fontWeight: 500,
-              color: "var(--text2)",
-              marginBottom: "1.5rem",
-              letterSpacing: ".05em",
-              textTransform: "uppercase",
-              animation: "fadeSlideUp .7s ease .2s both",
-            }}
+            className="
+      text-base md:text-lg
+      font-medium
+      text-[var(--text2)]
+      tracking-wide uppercase
+      mb-6
+      animate-[fadeSlideUp_.7s_ease_.2s_both]
+    "
           >
-            Full-Stack Developer · Frontend Specialist
+            Frontend-Focused Full-Stack Developer
           </div>
+
+          {/* Description */}
           <p
-            style={{
-              fontSize: "1.05rem",
-              lineHeight: 1.75,
-              color: "var(--text2)",
-              maxWidth: 500,
-              marginBottom: "2.5rem",
-              animation: "fadeSlideUp .7s ease .3s both",
-            }}
+            className="
+      text-[1.05rem]
+      leading-relaxed
+      text-[var(--text2)]
+      mb-10
+      animate-[fadeSlideUp_.7s_ease_.3s_both]
+    "
           >
-            I design and build full-stack applications that blend seamless user
-            experiences with powerful backend systems. Specialized in modern web
-            development, API architecture, real-time features, and cloud-ready
-            deployments.
+            {HERO_CONTENT}
           </p>
-          <div
-            style={{
-              display: "flex",
-              gap: "1rem",
-              flexWrap: "wrap",
-              animation: "fadeSlideUp .7s ease .4s both",
-            }}
-          >
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-4 animate-[fadeSlideUp_.7s_ease_.4s_both]">
             <a
               href="#projects"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: ".5rem",
-                padding: ".8rem 2rem",
-                background: "linear-gradient(135deg,#f06292,#e91e8c)",
-                color: "white",
-                borderRadius: 100,
-                fontWeight: 600,
-                fontSize: ".95rem",
-                textDecoration: "none",
-                boxShadow: "0 4px 20px rgba(240,98,146,.4)",
-                transition: "all .3s",
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLElement).style.transform = "translateY(-2px)";
-                (e.target as HTMLElement).style.boxShadow =
-                  "0 8px 30px rgba(240,98,146,.5)";
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLElement).style.transform = "";
-                (e.target as HTMLElement).style.boxShadow =
-                  "0 4px 20px rgba(240,98,146,.4)";
-              }}
+              className="
+          inline-flex items-center gap-2
+          px-8 py-3
+          rounded-full
+          text-sm font-semibold
+          text-white
+          bg-gradient-to-br from-pink-400 to-pink-600
+          shadow-[0_4px_20px_rgba(240,98,146,.4)]
+          transition-all duration-300
+          hover:-translate-y-1
+          hover:shadow-[0_8px_30px_rgba(240,98,146,.5)]
+        "
             >
               View Projects ✦
             </a>
+
             <a
-              href="mailto:nayanbera@example.com"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: ".5rem",
-                padding: ".8rem 2rem",
-                background: "var(--surface)",
-                color: "var(--text)",
-                borderRadius: 100,
-                fontWeight: 600,
-                fontSize: ".95rem",
-                textDecoration: "none",
-                border: "1px solid var(--border)",
-                transition: "all .3s",
-              }}
+              href="mailto:srilkehapaul2003@gmail.com"
+              className="
+          inline-flex items-center gap-2
+          px-8 py-3
+          rounded-full
+          text-sm font-semibold
+          border
+          border-[var(--border)]
+          bg-[var(--surface)]
+          text-[var(--text)]
+          transition-all duration-300
+          hover:bg-[var(--surface2)]
+          hover:-translate-y-1
+        "
             >
               Say Hello 🌸
             </a>
@@ -1018,125 +773,98 @@ export default function Portfolio() {
         </div>
 
         {/* Teddy */}
-        <div
-          className="hero-illustration"
-          style={{
-            position: "relative",
-            zIndex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            animation: "fadeSlideUp .8s ease .2s both",
-          }}
-        >
-          <div
-            ref={wrapperRef}
-            id="teddyWrapper"
-            style={{
-              position: "relative",
-              width: 380,
-              height: 450,
-              cursor: "pointer",
-              userSelect: "none",
-            }}
-            onMouseEnter={handleTeddyMouseEnter}
-            onMouseLeave={handleTeddyMouseLeave}
-            onClick={handleTeddyClick}
-            onDoubleClick={handleTeddyDblClick}
-          >
-            <div
-              id="teddyGlow"
-              style={{
-                position: "absolute",
-                inset: -20,
-                background: glowBg,
-                borderRadius: "50%",
-                animation: "glowPulse 4s ease-in-out infinite",
-                transition: "background .5s",
-              }}
-            />
-            <div id="teddy-bubble" className={bubbleVisible ? "show" : ""}>
-              {bubbleText}
-            </div>
-            <div id="teddy-mood" className={moodVisible ? "show" : ""}>
-              {moodLabel}
-            </div>
+        <div className="relative z-10 hidden lg:flex justify-center items-center">
 
-            <TeddySVG
-              animClass={animClass}
-              eyeState={eyeState}
-              mouthState={mouthState}
-              leftPupilPos={leftPupil}
-              rightPupilPos={rightPupil}
-              teddyRef={teddyRef}
-            />
+  {/* Radial Background Glow */}
+  <div className="
+    absolute
+    w-[600px] h-[600px]
+    rounded-full
+    bg-gradient-to-br from-pink-500/30 to-purple-500/20
+    blur-[120px]
+    opacity-60
+    pointer-events-none
+  " />
 
-            <div
-              style={{
-                position: "absolute",
-                bottom: 108,
-                left: "50%",
-                transform: "translateX(-50%)",
-                fontSize: ".7rem",
-                color: "var(--text3)",
-                whiteSpace: "nowrap",
-                display: "flex",
-                alignItems: "center",
-                gap: ".4rem",
-                animation: "fadeSlideUp 1s ease 2.5s both",
-              }}
-            >
-              👆 Click &amp; hover me!
-            </div>
+  {/* Ground Shadow */}
+  <div className="
+    absolute bottom-10
+    w-[320px] h-[80px]
+    bg-black/30
+    blur-3xl
+    rounded-full
+    opacity-40
+  " />
 
-            {/* Stack card */}
-            <div
-              style={{
-                position: "absolute",
-                top: 308,
-                left: 0,
-                right: 0,
-                background: "var(--surface)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid var(--border)",
-                borderRadius: "2rem",
-                padding: "1rem 1.5rem",
-                textAlign: "center",
-                boxShadow: "0 20px 60px rgba(0,0,0,.12)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: ".72rem",
-                  color: "var(--text3)",
-                  marginBottom: ".4rem",
-                }}
-              >
-                Current Stack
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: ".75rem",
-                  fontSize: "1.3rem",
-                }}
-              >
-                🟢 🔷 🟡 🐘 🍃 🐋
-              </div>
-              <div
-                style={{
-                  fontSize: ".72rem",
-                  color: "var(--accent)",
-                  marginTop: ".4rem",
-                  fontWeight: 700,
-                }}
-              >
-                Node · TypeScript · Python · PostgreSQL · MongoDB · Docker
-              </div>
-            </div>
-          </div>
-        </div>
+  <div
+    ref={wrapperRef}
+    className="relative w-[380px] h-[450px] cursor-pointer select-none"
+    onMouseEnter={handleTeddyMouseEnter}
+    onMouseLeave={handleTeddyMouseLeave}
+    onClick={handleTeddyClick}
+    onDoubleClick={handleTeddyDblClick}
+  >
+
+    {/* Soft Ambient Glow */}
+    <div
+      className="absolute -inset-6 rounded-full blur-3xl opacity-70 transition-all duration-500"
+      style={{ background: glowBg }}
+    />
+
+    <div id="teddy-bubble" className={bubbleVisible ? "show" : ""}>
+      {bubbleText}
+    </div>
+
+    <div id="teddy-mood" className={moodVisible ? "show" : ""}>
+      {moodLabel}
+    </div>
+
+    <TeddySVG
+      animClass={animClass}
+      eyeState={eyeState}
+      mouthState={mouthState}
+      leftPupilPos={leftPupil}
+      rightPupilPos={rightPupil}
+      teddyRef={teddyRef}
+    />
+
+    {/* Hint */}
+    <div className="
+      absolute bottom-[115px] left-1/2 -translate-x-1/2
+      text-xs text-[var(--text3)]
+      tracking-wide
+      animate-[fadeSlideUp_1s_ease_2s_both]
+    ">
+      Click & hover me ✨
+    </div>
+
+    {/* Stack Card (Improved Glass) */}
+    <div className="
+      absolute top-[320px] left-0 right-0
+      backdrop-blur-2xl
+      bg-white/5
+      border border-white/10
+      rounded-3xl
+      px-8 py-6
+      text-center
+      shadow-[0_20px_60px_rgba(0,0,0,.25)]
+      transition-all duration-300
+      hover:shadow-[0_25px_80px_rgba(0,0,0,.35)]
+    ">
+      <div className="text-xs uppercase tracking-widest text-[var(--text3)] mb-3">
+        Current Stack
+      </div>
+
+      <div className="flex justify-center gap-5 text-2xl mb-3">
+        🟢 🔷 🟡 🐘 🍃 🐋
+      </div>
+
+      <div className="text-sm font-semibold text-[var(--accent)]">
+        Node · TypeScript · Python · PostgreSQL · MongoDB · Docker
+      </div>
+    </div>
+  </div>
+</div>
       </section>
 
       {/* ── ABOUT ── */}
@@ -1228,12 +956,7 @@ export default function Portfolio() {
                 marginBottom: "2rem",
               }}
             >
-              With 3+ years of frontend and full-stack development experience, I
-              build scalable application architectures, design modular service
-              layers, and develop reliable APIs that integrate seamlessly across
-              systems. I focus on clean, maintainable code and engineering
-              practices that ensure performance, security, and long-term
-              stability.
+              {ABOUT_TEXT}
             </p>
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               {[
@@ -1305,59 +1028,21 @@ export default function Portfolio() {
               gap: "1rem",
             }}
           >
-            {[
-              ["🟢", "Node.js"],
-              ["🔷", "TypeScript"],
-              ["🐍", "Python"],
-              ["🐘", "PostgreSQL"],
-              ["🍃", "MongoDB"],
-              ["🐋", "Docker"],
-              ["⚛️", "React.js"],
-              ["▲", "Next.js"],
-              ["🩷", "GraphQL"],
-            ].map(([icon, name]) => (
+            {techs.map((tech) => (
               <div
-                key={name}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: ".75rem",
-                  padding: ".85rem 1.1rem",
-                  background: "var(--card-bg)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "1rem",
-                  transition: "all .3s",
-                  cursor: "default",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background =
-                    "var(--surface2)";
-                  (e.currentTarget as HTMLElement).style.borderColor =
-                    "rgba(240,98,146,.35)";
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "translateX(4px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background =
-                    "var(--card-bg)";
-                  (e.currentTarget as HTMLElement).style.borderColor =
-                    "var(--border)";
-                  (e.currentTarget as HTMLElement).style.transform = "";
-                }}
+                key={tech.name}
+                className="flex items-center gap-3  px-4 py-3 bg-(--card-bg) border border-(--border) rounded-xl cursor-default transition-all duration-300
+                 hover:bg-(--surface2) hover:border-pink-400/40  hover:translate-x-1  group "
               >
                 <div
-                  style={{ fontSize: "1.5rem", width: 32, textAlign: "center" }}
+                  className="text-2xl w-8 text-center  text-(--accent)  
+                  transition-all duration-300  group-hover:scale-110  group-hover:text-pink-400 "
                 >
-                  {icon}
+                  {tech.icon}
                 </div>
-                <span
-                  style={{
-                    fontSize: ".9rem",
-                    fontWeight: 500,
-                    color: "var(--text)",
-                  }}
-                >
-                  {name}
+
+                <span className="text-sm font-medium text-(--text)">
+                  {tech.name}
                 </span>
               </div>
             ))}
@@ -1368,505 +1053,215 @@ export default function Portfolio() {
       {/* ── PROJECTS ── */}
       <section
         id="projects"
-        style={{
-          padding: "6rem 6rem",
-          position: "relative",
-          background: "var(--bg2)",
-        }}
+        className="py-24 px-24 relative"
+        style={{ background: "var(--bg2)" }}
       >
         <div className="reveal">
-          <div
-            className="section-label"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".75rem",
-              marginBottom: "1rem",
-              fontSize: ".8rem",
-              fontWeight: 700,
-              letterSpacing: ".15em",
-              textTransform: "uppercase",
-              color: "var(--accent)",
-            }}
-          >
+          <div className="section-label flex items-center gap-3 mb-4 text-xs font-bold tracking-[0.15em] uppercase text-(--accent)">
             ✦ What I've Built
           </div>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display',serif",
-              fontSize: "clamp(2rem,4vw,3.5rem)",
-              fontWeight: 700,
-              marginBottom: "1rem",
-              lineHeight: 1.15,
-              color: "var(--text)",
-            }}
-          >
+
+          <h2 className="font-['Playfair_Display'] text-[clamp(2rem,4vw,3.5rem)] font-bold mb-4 leading-tight text-(--text)">
             Featured{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg,#ffb3cc,#ce93d8)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
+            <span className="bg-gradient-to-r from-pink-200 to-purple-300 bg-clip-text text-transparent">
               Projects
             </span>
           </h2>
         </div>
-        <div
-          className="projects-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2,1fr)",
-            gap: "1.5rem",
-            marginTop: "3rem",
-          }}
-        >
-          {[
-            {
-              num: "01",
-              status: "dev",
-              statusText: "⏳ In Development",
-              title: "Tripzy — Smart Hotel Booking System",
-              desc: "A full hotel booking platform with automated document verification, secure JWT-based access, digital check-ins, and integrated Razorpay payment workflows.",
-              tags: [
-                "Node.js",
-                "TypeScript",
-                "React.js",
-                "JWT",
-                "Razorpay",
-                "REST API",
-              ],
-              link: null,
-              delay: ".1s",
-            },
-            {
-              num: "02",
-              status: "dev",
-              statusText: "⏳ In Development",
-              title: "ProctorLive — Online Exam & Monitoring System",
-              desc: "A secure examination platform with live monitoring, keyboard lock, candidate event tracking, quick results, and real-time updates powered by WebSockets and JWT.",
-              tags: [
-                "Node.js",
-                "TypeScript",
-                "React.js",
-                "WebSockets",
-                "JWT",
-                "REST API",
-              ],
-              link: null,
-              delay: ".2s",
-            },
-            {
-              num: "03",
-              status: "backend",
-              statusText: "✅ Backend Complete",
-              title: "StaySphere — PG & Hostel Finder Platform",
-              desc: "A property discovery and management platform enabling PG/hostel providers to manage listings while users search, filter, and book stays with secure payments and reCAPTCHA-protected authentication.",
-              tags: [
-                "Node.js",
-                "TypeScript",
-                "React.js",
-                "RTK Query",
-                "Razorpay",
-                "reCAPTCHA v3",
-                "JWT",
-              ],
-              link: null,
-              delay: ".3s",
-            },
-            {
-              num: "04",
-              status: "live",
-              statusText: "🟢 Live",
-              title: "NexaFlow CRM — Role-Based Operations & Workflow Manager",
-              desc: "A modular CRM solution featuring role-based access control, task pipelines, team collaboration tools, and automated workflow management with scalable backend architecture.",
-              tags: ["Next.js", "TypeScript", "RBAC", "REST API"],
-              link: "https://naystack.vercel.app",
-              delay: ".4s",
-            },
-          ].map((p) => (
-            <div
-              key={p.num}
-              className="project-card reveal"
-              style={{
-                background: "var(--card-bg)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid var(--border)",
-                borderRadius: "2rem",
-                padding: "2rem",
-                transition: "all .4s",
-                position: "relative",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-                transitionDelay: p.delay,
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(240,98,146,.35)";
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-6px)";
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 24px 60px rgba(0,0,0,.12),0 0 40px var(--glow)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "var(--border)";
-                (e.currentTarget as HTMLElement).style.transform = "";
-                (e.currentTarget as HTMLElement).style.boxShadow = "";
-              }}
-            >
-              <span
-                style={{
-                  position: "absolute",
-                  top: "1.5rem",
-                  right: "1.5rem",
-                  fontFamily: "'Playfair Display',serif",
-                  fontSize: "3.5rem",
-                  fontWeight: 900,
-                  color: "var(--border)",
-                  lineHeight: 1,
-                }}
-              >
-                {p.num}
-              </span>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: ".4rem",
-                  fontSize: ".72rem",
-                  fontWeight: 700,
-                  padding: ".3rem .8rem",
-                  borderRadius: 100,
-                  marginBottom: "1rem",
-                  letterSpacing: ".05em",
-                  width: "fit-content",
-                  ...(p.status === "live"
-                    ? {
-                        background: "rgba(74,222,128,.15)",
-                        color: "#16a34a",
-                        border: "1px solid rgba(74,222,128,.35)",
-                      }
-                    : p.status === "backend"
-                      ? {
-                          background: "rgba(147,197,253,.15)",
-                          color: "#1d4ed8",
-                          border: "1px solid rgba(147,197,253,.35)",
-                        }
-                      : {
-                          background: "rgba(251,191,36,.15)",
-                          color: "#b45309",
-                          border: "1px solid rgba(251,191,36,.35)",
-                        }),
-                }}
-              >
-                {p.statusText}
-              </div>
-              <h3
-                style={{
-                  fontFamily: "'Playfair Display',serif",
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  marginBottom: ".75rem",
-                  lineHeight: 1.3,
-                  paddingRight: "3rem",
-                  color: "var(--text)",
-                }}
-              >
-                {p.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: ".9rem",
-                  lineHeight: 1.7,
-                  color: "var(--text2)",
-                  marginBottom: "1.5rem",
-                  flex: 1,
-                }}
-              >
-                {p.desc}
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: ".5rem",
-                  marginBottom: "1.5rem",
-                }}
-              >
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="tech-tag"
-                    style={{
-                      fontSize: ".72rem",
-                      fontWeight: 600,
-                      padding: ".25rem .7rem",
-                      background: "rgba(240,98,146,.1)",
-                      color: "var(--accent)",
-                      borderRadius: 100,
-                      border: "1px solid rgba(240,98,146,.2)",
-                    }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              {p.link ? (
-                <a
-                  href={p.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: ".4rem",
-                    color: "var(--accent)",
-                    fontSize: ".85rem",
-                    fontWeight: 700,
-                    textDecoration: "none",
-                    transition: "gap .2s",
-                  }}
-                >
-                  View Live Project →
-                </a>
-              ) : (
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: ".4rem",
-                    color: "var(--text3)",
-                    fontSize: ".85rem",
-                  }}
-                >
-                  🔒 {p.status === "dev" ? "In Development" : "Coming Soon"}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ── EXPERIENCE ── */}
-      <section
-        id="experience"
-        style={{ padding: "6rem 6rem", position: "relative" }}
-      >
-        <div className="reveal">
-          <div
-            className="section-label"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: ".75rem",
-              marginBottom: "1rem",
-              fontSize: ".8rem",
-              fontWeight: 700,
-              letterSpacing: ".15em",
-              textTransform: "uppercase",
-              color: "var(--accent)",
-            }}
-          >
-            ✦ My Journey
-          </div>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display',serif",
-              fontSize: "clamp(2rem,4vw,3.5rem)",
-              fontWeight: 700,
-              marginBottom: "1rem",
-              lineHeight: 1.15,
-              color: "var(--text)",
-            }}
-          >
-            Work{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg,#ffb3cc,#f06292)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Experience
-            </span>
-          </h2>
-        </div>
-        <div
-          className="experience-list reveal"
-          style={{
-            marginTop: "3rem",
-            position: "relative",
-            transitionDelay: ".15s",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              left: 11,
-              top: 0,
-              bottom: 0,
-              width: 1,
-              background: "var(--border)",
-            }}
-          />
-          {[
-            {
-              dot: "#22d3ee",
-              role: "Full-Stack Web Developer",
-              company: "@ Maity Innovations Pvt Ltd",
-              companyColor: "#0e7490",
-              period: "2025 — Present",
-              bullets: [
-                "Built multiple full-stack applications, handling both frontend and backend modules.",
-                "Designed and implemented a multi-tenant SaaS platform with role-based access control and modular architecture.",
-                "Managed Docker containers, created project-specific images, and monitored deployments on Dokploy.",
-                "Integrated Razorpay, optimized CI/CD flows, and improved environment setups for production stability.",
-                "Reviewed and merged branches, mentored teammates on backend fundamentals, and improved project workflows.",
-              ],
-            },
-            {
-              dot: "#60a5fa",
-              role: "Web Developer Intern",
-              company: "@ Maity Innovations Pvt Ltd",
-              companyColor: "#1d4ed8",
-              period: "2024 — 2025",
-              bullets: [
-                "Built dynamic Laravel applications including admin dashboards and CMS modules.",
-                "Developed backend services in Node.js using JWT and reCAPTCHA with optimized search endpoints and scalable API design.",
-                "Delivered responsive UI pages using HTML, CSS, and JavaScript.",
-                "Collaborated with senior developers to refine architecture and improve maintainability.",
-              ],
-            },
-          ].map((exp, i) => (
-            <div
-              key={i}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "auto 1fr",
-                gap: "0 2rem",
-                marginBottom: "3rem",
-                position: "relative",
-              }}
-            >
+        {/* GRID */}
+        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+          {PROJECTS.map((project, index) => {
+            const num = `0${index + 1}`;
+
+            const statusType =
+              project.status === "Live"
+                ? "live"
+                : project.status === "Backend Complete"
+                  ? "backend"
+                  : "dev";
+
+            return (
               <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  paddingTop: ".3rem",
-                }}
-              >
-                <div
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: "50%",
-                    border: "3px solid var(--bg)",
-                    flexShrink: 0,
-                    boxShadow: "0 0 15px var(--glow)",
-                    background: exp.dot,
-                  }}
-                />
-              </div>
-              <div
+                key={project.title}
+                className="
+            project-card reveal
+            relative overflow-hidden
+            flex flex-col
+            p-8
+            rounded-[2rem]
+            transition-all duration-500
+            hover:-translate-y-2
+          "
                 style={{
                   background: "var(--card-bg)",
                   backdropFilter: "blur(20px)",
                   border: "1px solid var(--border)",
-                  borderRadius: "1.5rem",
-                  padding: "1.75rem",
-                  transition: "all .3s",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor =
-                    "rgba(240,98,146,.35)";
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "translateX(6px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor =
-                    "var(--border)";
-                  (e.currentTarget as HTMLElement).style.transform = "";
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: ".5rem",
-                    alignItems: "baseline",
-                    marginBottom: ".25rem",
-                  }}
+                {/* Big Number */}
+                <span
+                  className="absolute top-6 right-6 font-black text-[3.5rem] leading-none font-['Playfair_Display']"
+                  style={{ color: "var(--border)" }}
                 >
-                  <span
-                    style={{
-                      fontSize: "1.1rem",
-                      fontWeight: 700,
-                      color: "var(--text)",
-                    }}
+                  {num}
+                </span>
+
+                {/* Status Badge */}
+                <div
+                  className={`
+              inline-flex items-center gap-1
+              text-[0.72rem] font-bold
+              px-3 py-1
+              rounded-full
+              mb-4
+              tracking-wide
+              w-fit
+              ${
+                statusType === "live"
+                  ? "bg-green-400/15 text-green-600 border border-green-400/35"
+                  : statusType === "backend"
+                    ? "bg-blue-400/15 text-blue-600 border border-blue-400/35"
+                    : "bg-yellow-400/15 text-yellow-700 border border-yellow-400/35"
+              }
+            `}
+                >
+                  {statusType === "live"
+                    ? "🟢 Live"
+                    : statusType === "backend"
+                      ? "✅ Backend Complete"
+                      : "⏳ In Development"}
+                </div>
+
+                {/* Title */}
+                <h3
+                  className="text-xl font-bold mb-3 pr-12 leading-snug font-['Playfair_Display']"
+                  style={{ color: "var(--text)" }}
+                >
+                  {project.title}
+                </h3>
+
+                {/* Description */}
+                <p
+                  className="text-sm leading-relaxed mb-6 flex-1"
+                  style={{ color: "var(--text2)" }}
+                >
+                  {project.description}
+                </p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="tech-tag text-[0.72rem] font-semibold px-3 py-1 rounded-full"
+                      style={{
+                        background: "rgba(240,98,146,.1)",
+                        color: "var(--accent)",
+                        border: "1px solid rgba(240,98,146,.2)",
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Link */}
+                {project.link ? (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center text-sm font-bold transition-all hover:gap-2"
+                    style={{ color: "var(--accent)" }}
                   >
+                    View Live Project →
+                  </a>
+                ) : (
+                  <span
+                    className="inline-flex items-center gap-1 text-sm"
+                    style={{ color: "var(--text3)" }}
+                  >
+                    🔒 {statusType === "dev" ? "In Development" : "Coming Soon"}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── EXPERIENCE ── */}
+      <section id="experience" className="py-24 px-24 relative">
+        <div className="reveal">
+          <div className="section-label flex items-center gap-3 mb-4 text-xs font-bold tracking-[0.15em] uppercase text-(--accent)">
+            ✦ My Journey
+          </div>
+
+          <h2 className="font-['Playfair_Display'] text-[clamp(2rem,4vw,3.5rem)] font-bold mb-4 leading-tight text-(--text)">
+            Work{" "}
+            <span className="bg-gradient-to-r from-pink-200 to-pink-400 bg-clip-text text-transparent">
+              Experience
+            </span>
+          </h2>
+        </div>
+
+        {/* Timeline */}
+        <div className="experience-list reveal mt-12 relative">
+          {/* Vertical Line */}
+          <div className="absolute left-[11px] top-0 bottom-0 w-px bg-[var(--border)]" />
+
+          {EXPERIENCE.map((exp, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-[auto_1fr] gap-x-8 mb-12 relative"
+            >
+              {/* Dot */}
+              <div className="flex flex-col items-center pt-1">
+                <div
+                  className={`w-[22px] h-[22px] rounded-full border-[3px] border-[var(--bg)] shadow-[0_0_15px_var(--glow)] ${exp.dotClass}`}
+                />
+              </div>
+
+              {/* Card */}
+              <div
+                className="
+            bg-[var(--card-bg)]
+            backdrop-blur-xl
+            border border-(--border)
+            rounded-2xl
+            p-7
+            transition-all duration-300
+            hover:border-pink-400/40
+            hover:translate-x-1.5
+          "
+              >
+                {/* Header */}
+                <div className="flex flex-wrap gap-2 items-baseline mb-1">
+                  <span className="text-lg font-bold text-(--text)">
                     {exp.role}
                   </span>
-                  <span
-                    style={{
-                      fontSize: ".9rem",
-                      fontWeight: 600,
-                      color: exp.companyColor,
-                    }}
-                  >
-                    {exp.company}
+
+                  <span className={`text-sm font-semibold ${exp.companyClass}`}>
+                    @ {exp.company}
                   </span>
-                  <span
-                    style={{
-                      marginLeft: "auto",
-                      fontSize: ".8rem",
-                      color: "var(--text2)",
-                      background: "var(--surface2)",
-                      padding: ".2rem .75rem",
-                      borderRadius: 100,
-                      border: "1px solid var(--border)",
-                    }}
-                  >
+
+                  <span className="ml-auto text-xs text-(--text2) bg-[var(--surface2)] px-3 py-1 rounded-full border border-(--border)">
                     {exp.period}
                   </span>
                 </div>
-                <ul
-                  style={{
-                    listStyle: "none",
-                    marginTop: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: ".5rem",
-                    padding: 0,
-                  }}
-                >
-                  {exp.bullets.map((b, bi) => (
+
+                {/* Bullets */}
+                <ul className="mt-4 flex flex-col gap-2">
+                  {exp.description.map((point, index) => (
                     <li
-                      key={bi}
-                      style={{
-                        fontSize: ".9rem",
-                        color: "var(--text2)",
-                        lineHeight: 1.6,
-                        display: "flex",
-                        gap: ".75rem",
-                      }}
+                      key={index}
+                      className="flex gap-3 text-sm text-(--text2) leading-relaxed"
                     >
-                      <span
-                        style={{
-                          color: "var(--accent)",
-                          fontSize: ".5rem",
-                          marginTop: ".4rem",
-                          flexShrink: 0,
-                        }}
-                      >
+                      <span className="text-(--accent) text-[0.5rem] mt-2">
                         ◆
                       </span>
-                      {b}
+                      {point}
                     </li>
                   ))}
                 </ul>
@@ -1879,197 +1274,124 @@ export default function Portfolio() {
       {/* ── CONTACT ── */}
       <section
         id="contact"
-        style={{
-          padding: "6rem 6rem",
-          position: "relative",
-          background: "var(--bg2)",
-          textAlign: "center",
-          overflow: "hidden",
-        }}
+        className="relative py-24 px-24 text-center overflow-hidden"
+        style={{ background: "var(--bg2)" }}
       >
+        {/* Background Blobs */}
         <div
-          style={{
-            position: "absolute",
-            borderRadius: "50%",
-            filter: "blur(80px)",
-            opacity: 0.07,
-            pointerEvents: "none",
-            width: 500,
-            height: 500,
-            background: "radial-gradient(circle,#f06292,#e91e8c)",
-            top: -100,
-            left: -100,
-            animation: "blobFloat 8s ease-in-out infinite",
-          }}
+          className="absolute -top-24 -left-24 w-[500px] h-[500px] rounded-full blur-[80px] opacity-[0.07] pointer-events-none animate-[blobFloat_8s_ease-in-out_infinite]"
+          style={{ background: "radial-gradient(circle,#f06292,#e91e8c)" }}
         />
         <div
-          style={{
-            position: "absolute",
-            borderRadius: "50%",
-            filter: "blur(80px)",
-            opacity: 0.07,
-            pointerEvents: "none",
-            width: 400,
-            height: 400,
-            background: "radial-gradient(circle,#ce93d8,#9c27b0)",
-            bottom: -50,
-            right: 200,
-            animation: "blobFloat 10s ease-in-out infinite reverse",
-          }}
+          className="absolute -bottom-12 right-48 w-[400px] h-[400px] rounded-full blur-[80px] opacity-[0.07] pointer-events-none animate-[blobFloat_10s_ease-in-out_infinite_reverse]"
+          style={{ background: "radial-gradient(circle,#ce93d8,#9c27b0)" }}
         />
+
         <div
-          className="contact-card-inner reveal"
-          style={{
-            maxWidth: 640,
-            margin: "0 auto",
-            background: "var(--card-bg)",
-            backdropFilter: "blur(30px)",
-            border: "1px solid var(--border)",
-            borderRadius: "2.5rem",
-            padding: "4rem",
-            position: "relative",
-            boxShadow: "0 40px 80px rgba(0,0,0,.1)",
-          }}
+          className="
+      contact-card-inner reveal
+      max-w-2xl mx-auto
+      bg-[var(--card-bg)]
+      backdrop-blur-3xl
+      border border-(--border)
+      rounded-[2.5rem]
+      p-16
+      relative
+      shadow-[0_40px_80px_rgba(0,0,0,.1)]
+    "
         >
-          <span
-            style={{
-              fontSize: "3.5rem",
-              marginBottom: "1.5rem",
-              display: "block",
-              animation: "teddyFloatSmall 3s ease-in-out infinite",
-            }}
-          >
+          {/* Floating Teddy */}
+          <span className="block text-[3.5rem] mb-6 animate-[teddyFloatSmall_3s_ease-in-out_infinite]">
             🧸
           </span>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display',serif",
-              fontSize: "2.5rem",
-              fontWeight: 700,
-              marginBottom: "1rem",
-              color: "var(--text)",
-            }}
-          >
+
+          {/* Heading */}
+          <h2 className="font-['Playfair_Display'] text-4xl font-bold mb-4 text-(--text)">
             Let's Build Something{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg,#ffb3cc,#f06292)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
+            <span className="bg-gradient-to-r from-pink-200 to-pink-400 bg-clip-text text-transparent">
               Wonderful
             </span>
           </h2>
-          <p
-            style={{
-              color: "var(--text2)",
-              marginBottom: "2rem",
-              lineHeight: 1.7,
-            }}
-          >
+
+          {/* Description */}
+          <p className="text-(--text2) mb-8 leading-relaxed">
             Have a project in mind or just want to say hello? I'd love to hear
             from you. Let's create something amazing together.
           </p>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "1rem",
-            }}
-          >
+
+          {/* Email Badge */}
+          <div className="flex justify-center mb-4">
             <a
-              href="mailto:nayanbera@example.com"
-              className="email-badge"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: ".75rem",
-                background: "rgba(240,98,146,.1)",
-                border: "1px solid rgba(240,98,146,.25)",
-                padding: "1rem 2rem",
-                borderRadius: "1rem",
-                color: "var(--accent)",
-                fontSize: "1rem",
-                fontWeight: 500,
-                textDecoration: "none",
-                transition: "all .3s",
-                marginBottom: "2rem",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background =
-                  "rgba(240,98,146,.2)";
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-2px)";
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 10px 30px var(--glow)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background =
-                  "rgba(240,98,146,.1)";
-                (e.currentTarget as HTMLElement).style.transform = "";
-                (e.currentTarget as HTMLElement).style.boxShadow = "";
-              }}
+              href={`mailto:${CONTACT.email}`}
+              className="
+          email-badge
+          inline-flex items-center gap-3
+          bg-pink-400/10
+          border border-pink-400/25
+          px-8 py-4
+          rounded-xl
+          text-(--accent)
+          text-base font-medium
+          transition-all duration-300
+          hover:bg-pink-400/20
+          hover:-translate-y-1
+          hover:shadow-[0_10px_30px_var(--glow)]
+        "
             >
-              ✉️ nayanbera@example.com
+              ✉️ {CONTACT.email}
             </a>
           </div>
+
+          {/* CTA Button */}
           <a
-            href="mailto:nayanbera@example.com"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: ".5rem",
-              padding: ".8rem 2rem",
-              background: "linear-gradient(135deg,#f06292,#e91e8c)",
-              color: "white",
-              borderRadius: 100,
-              fontWeight: 600,
-              fontSize: ".95rem",
-              textDecoration: "none",
-              boxShadow: "0 4px 20px rgba(240,98,146,.4)",
-              transition: "all .3s",
-            }}
+            href={`mailto:${CONTACT.email}`}
+            className="
+        inline-flex items-center gap-2
+        px-8 py-3
+        rounded-full
+        text-white
+        font-semibold text-sm
+        bg-linear-to-br from-pink-400 to-pink-600
+        shadow-[0_4px_20px_rgba(240,98,146,.4)]
+        transition-all duration-300
+        hover:-translate-y-1
+        hover:shadow-[0_8px_30px_rgba(240,98,146,.5)]
+      "
           >
             Send a Message 🌸
           </a>
         </div>
       </section>
-
       {/* ── FOOTER ── */}
       <footer
-        style={{
-          background: "var(--bg3)",
-          padding: "3rem 6rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderTop: "1px solid var(--border)",
-        }}
+        className="
+    bg-[var(--bg3)]
+    border-t border-(--border)
+    px-24 py-12
+    flex items-center justify-between
+  "
       >
+        {/* Name */}
         <div
-          style={{
-            fontFamily: "'Playfair Display',serif",
-            fontSize: "1.25rem",
-            fontWeight: 700,
-            background: "linear-gradient(135deg,#ffb3cc,#f06292)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
+          className="
+      font-['Playfair_Display']
+      text-xl
+      font-bold
+      bg-linear-to-br from-pink-200 to-pink-400
+      bg-clip-text
+      text-transparent
+    "
         >
           Nayan Bera
         </div>
-        <p style={{ fontSize: ".8rem", color: "var(--text2)" }}>
+
+        {/* Copyright */}
+        <p className="text-xs text-(--text2)">
           Crafted with 🩷 and lots of ☕ · © 2025
         </p>
-        <div
-          style={{
-            animation: "teddyFloatSmall 4s ease-in-out infinite",
-            animationDelay: "1s",
-          }}
-        >
+
+        {/* Floating Teddy */}
+        <div className="animate-[teddyFloatSmall_4s_ease-in-out_infinite] [animation-delay:1s]">
           <svg
             width="44"
             height="50"

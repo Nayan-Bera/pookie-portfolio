@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+/* Optional custom global styles */
+html {
+  scroll-behavior: smooth;
+}
+/* ===============================
+   THEME VARIABLES
+================================= */
+
+:root {
+  --pink-100:#fff0f5;
+  --pink-200:#ffd6e7;
+  --pink-300:#ffb3cc;
+  --pink-400:#ff85aa;
+  --pink-500:#f06292;
+  --pink-600:#e91e8c;
+
+  --lavender:#e8d5f5;
+
+  --bg:#1a0a10;
+  --bg2:#22101a;
+  --bg3:#2d1520;
+
+  --surface:rgba(255,182,193,0.07);
+  --surface2:rgba(255,182,193,0.12);
+  --border:rgba(255,182,193,0.15);
+
+  --text:#fdf0f5;
+  --text2:#e0b0c8;
+  --text3:#b88aaa;
+
+  --accent:#ff85aa;
+  --glow:rgba(240,98,146,0.3);
+  --card-bg:rgba(255,182,193,0.06);
+}
+
+[data-theme="light"] {
+  --bg:#fff5f8;
+  --bg2:#ffeef4;
+  --bg3:#ffdce8;
+
+  --surface:rgba(180,40,80,0.07);
+  --surface2:rgba(180,40,80,0.12);
+  --border:rgba(180,40,80,0.18);
+
+  --text:#1a0510;
+  --text2:#4a1020;
+  --text3:#7a2040;
+
+  --accent:#c0306a;
+  --glow:rgba(180,40,80,0.15);
+  --card-bg:rgba(180,40,80,0.05);
+}
+
+/* ===============================
+   BASE
+================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-dm);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* Subtle Noise Texture */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:0.4;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-thumb {
+  background:var(--accent);
+  border-radius:3px;
+}
+
+/* ===============================
+   ANIMATIONS
+================================= */
+
+@keyframes blobFloat {
+  0%,100%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(30px,-20px) scale(1.05);}
+  66%{transform:translate(-20px,15px) scale(.95);}
+}
+
+@keyframes fadeSlideUp {
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes teddyFloat {
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(-12px);}
+}
+
+/* ===============================
+   UTILITY CLASSES
+================================= */
+
+.reveal {
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+
+.reveal.visible {
+  opacity:1;
+  transform:translateY(0);
+}
