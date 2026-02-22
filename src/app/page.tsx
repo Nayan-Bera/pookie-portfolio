@@ -581,8 +581,14 @@ export default function Portfolio() {
     <>
       {/* ── NAV ── */}
       <nav
-        className=" fixed top-0 left-0 right-0 z-100 px-8 py-4 flex items-center justify-between
-         backdrop-blur-2xl border-b border-(--border) bg-[rgba(26,10,16,0.78)] transition-colors duration-400"
+        className="  fixed top-0 left-0 right-0 z-[100]
+    px-8 py-4
+    flex items-center justify-between
+    backdrop-blur-2xl
+    border-b border-[var(--border)]
+    bg-[var(--surface)]
+    shadow-[0_8px_30px_rgba(0,0,0,.08)]
+    transition-all duration-300"
       >
         {/* Logo */}
         <div
