@@ -1388,7 +1388,7 @@ export default function Portfolio() {
       text-transparent
     "
         >
-          Nayan Bera
+          Srilekha Paul
         </div>
 
         {/* Copyright */}
