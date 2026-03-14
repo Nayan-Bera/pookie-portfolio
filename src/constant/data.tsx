@@ -1,3 +1,4 @@
+
 import {
   FaGithub,
   FaNodeJs,
@@ -53,6 +54,37 @@ export const techs = [
 
 /* ================= PROJECTS ================= */
 
+// export const PROJECTS = [
+//   {
+//     title: "Personal Portfolio Website",
+//     description:
+//       "Designed and deployed a fully responsive portfolio website to showcase projects and technical skills. Implemented modern UI principles, optimized performance, and ensured cross-device compatibility.",
+//     technologies: [
+//       "Next.js",
+//       "React.js",
+//       "JavaScript",
+//       "Tailwind CSS",
+//       "Vercel",
+//     ],
+//     link: "https://sri-paul.vercel.app",
+//     status: "Live",
+//   },
+//   {
+//     title: "NexaFlow CRM — Role-Based Operations & Workflow Manager",
+//     description:
+//       "Built a scalable CRM application featuring role-based access control (RBAC), task management pipelines, and workflow automation. Developed secure REST APIs and implemented modular backend architecture.",
+//     technologies: [
+//       "Next.js",
+//       "TypeScript",
+//       "REST API",
+//       "RBAC",
+//       "Git",
+//     ],
+//     link: "",
+//     status: "Project Completed",
+//   },
+// ];
+
 export const PROJECTS = [
   {
     title: "Personal Portfolio Website",
@@ -68,19 +100,36 @@ export const PROJECTS = [
     link: "https://sri-paul.vercel.app",
     status: "Live",
   },
+
   {
-    title: "NexaFlow CRM — Role-Based Operations & Workflow Manager",
+    title: "PawBite – Pet Care & Food Ordering Platform",
     description:
-      "Built a scalable CRM application featuring role-based access control (RBAC), task management pipelines, and workflow automation. Developed secure REST APIs and implemented modular backend architecture.",
+      "A modern pet care platform where users can explore pet products, order pet food, and manage pet-related services. Built using Next.js with responsive UI, component-based architecture, and optimized performance.",
     technologies: [
       "Next.js",
       "TypeScript",
-      "REST API",
-      "RBAC",
-      "Git",
+      "React",
+      "Tailwind CSS",
+      "API Integration",
+    ],
+    link: "https://paw-next.vercel.app/",
+    status: "In Development",
+  },
+
+  {
+    title: "Digital Detox Tracker",
+    description:
+      "A productivity tracking web application that monitors screen usage and provides AI-based suggestions to improve focus and reduce digital distractions. Includes analytics dashboard, usage visualization, authentication system, and downloadable reports.",
+    technologies: [
+      "Python",
+      "Flask",
+      "JavaScript",
+      "Chart.js",
+      "HTML",
+      "CSS",
     ],
     link: "",
-    status: "Project Completed",
+    status: "🔒In Development",
   },
 ];
 

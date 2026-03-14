@@ -1181,7 +1181,7 @@ export default function Portfolio() {
                     className="inline-flex items-center text-sm font-bold transition-all hover:gap-2"
                     style={{ color: "var(--accent)" }}
                   >
-                    View Live Project →
+                    View Project →
                   </a>
                 ) : (
                   <span
@@ -1393,7 +1393,7 @@ export default function Portfolio() {
 
         {/* Copyright */}
         <p className="text-xs text-(--text2)">
-          Crafted with 🩷 and lots of ☕ · © 2025
+          Crafted with 🩷 and lots of ☕ · © 2026
         </p>
 
         {/* Floating Teddy */}
