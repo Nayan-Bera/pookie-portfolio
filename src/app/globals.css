@@ -1,14 +1,77 @@
-@import "tailwindcss";
+/* =================================
+   MOBILE RESPONSIVE FIXES
+================================= */
 
-/* Optional custom global styles */
-html {
+@media (max-width: 1024px) {
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    padding: 4rem 1.5rem !important;
+    gap: 3rem !important;
+  }
+
+  .tech-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .experience-list {
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+
+  nav {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  section {
+    overflow-x: hidden;
+  }
+
+  .mobile-padding {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .mobile-center {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+
+  .experience-card {
+    padding: 1.2rem !important;
+  }
+
+  footer {
+    flex-direction: column !important;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem 1.5rem !important;
+  }
+}
+
+
+ @import "tailwindcss";
+
+Optional custom global styles
+ html {
   scroll-behavior: smooth;
 }
 /* ===============================
    THEME VARIABLES
 ================================= */
 
-:root {
+ :root {
   --pink-100:#fff0f5;
   --pink-200:#ffd6e7;
   --pink-300:#ffb3cc;
@@ -51,13 +114,13 @@ html {
   --accent:#c0306a;
   --glow:rgba(180,40,80,0.15);
   --card-bg:rgba(180,40,80,0.05);
-}
+} 
 
 /* ===============================
    BASE
 ================================= */
 
-html {
+ html {
   scroll-behavior: smooth;
 }
 
@@ -70,7 +133,7 @@ body {
 }
 
 /* Subtle Noise Texture */
-body::before {
+ body::before {
   content:'';
   position:fixed;
   inset:0;
@@ -81,11 +144,11 @@ body::before {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width:6px; }
+ ::-webkit-scrollbar { width:6px; }
 ::-webkit-scrollbar-thumb {
   background:var(--accent);
   border-radius:3px;
-}
+}  
 
 /* ===============================
    ANIMATIONS
@@ -105,7 +168,7 @@ body::before {
 @keyframes teddyFloat {
   0%,100%{transform:translateX(-50%) translateY(0);}
   50%{transform:translateX(-50%) translateY(-12px);}
-}
+} 
 
 /* ===============================
    UTILITY CLASSES
@@ -120,4 +183,4 @@ body::before {
 .reveal.visible {
   opacity:1;
   transform:translateY(0);
-}
+}  
