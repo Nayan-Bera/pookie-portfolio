@@ -157,8 +157,8 @@ export const PROJECTS = [
       "RBAC",
       "Git",
     ],
-    link: "",
-    status: "Project Completed",
+    link: "https://naystack.vercel.app/",
+    status: "Live",
   },
 
   {
@@ -172,6 +172,20 @@ export const PROJECTS = [
       "Tailwind CSS",
     ],
     link: "",
+    status: "🔒In Development",
+  },
+     {
+    title: "PawBite – Pet Care & Food Ordering Platform",
+    description:
+      "A modern pet care platform where users can explore pet products, order pet food, and manage pet-related services. Built using Next.js with responsive UI, component-based architecture, and optimized performance.",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "API Integration",
+    ],
+    link: "https://paw-next.vercel.app/",
     status: "In Development",
   },
 
@@ -202,7 +216,7 @@ export const PROJECTS = [
       "Streamlit",
     ],
     link: "",
-    status: "In Development",
+    status: "🔒In Development",
   },
 ];
 
