@@ -8,7 +8,10 @@ import {
   HERO_CONTENT,
   PROJECTS,
   techs,
-} from "../constant/data";
+// } from "../constant/data";
+}
+// from "../constant/data";
+from "../../src/constant/data";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Theme = "dark" | "light";

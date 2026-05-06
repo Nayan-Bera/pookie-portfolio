@@ -1,4 +1,5 @@
-import "./globals.css"; 
+// import "./globals.css"; 
+import "./globals.css";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 const playfair = Playfair_Display({
   subsets: ["latin"],
