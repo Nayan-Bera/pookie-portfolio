@@ -95,7 +95,7 @@ export const PROJECTS = [
       "CSS",
     ],
     link: "http://127.0.0.1:5000/",
-    status: "Live",
+    status: "🔒In Development",
   },
   {
     title: "PawBite – Pet Care & Food Ordering Platform",
@@ -109,7 +109,7 @@ export const PROJECTS = [
       "API Integration",
     ],
     link: "https://paw-next.vercel.app/",
-    status: "In Development",
+    status: "🔒In Development",
   },
 
   {
@@ -122,7 +122,7 @@ export const PROJECTS = [
       "TypeScript",
       "Tailwind CSS",
     ],
-    link: "http://localhost:5173/",
+    link: "",
     status: "🔒In Development",
   },
 
