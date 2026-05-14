@@ -82,6 +82,21 @@ export const PROJECTS = [
     link: "https://naystack.vercel.app/",
     status: "Live",
   },
+  {
+  title: "Luxury Jewelry E-Commerce Website",
+  description:
+    "Developed a modern responsive jewelry e-commerce platform with product collections, shopping cart functionality, Firebase integration, checkout system, customer reviews, and elegant UI/UX design. Implemented dynamic product management and mobile-friendly layouts for seamless shopping experience.",
+  technologies: [
+    "React.js",
+    "JavaScript",
+    "Tailwind CSS",
+    "Firebase",
+    "Vite",
+    "Responsive Design",
+  ],
+  link: "",
+  status: "🔒In Development",
+},
      {
     title: "Digital Detox Tracker",
     description:
