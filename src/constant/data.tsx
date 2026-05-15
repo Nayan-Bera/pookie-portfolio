@@ -112,6 +112,21 @@ export const PROJECTS = [
     link: "",
     status: "🔒In Development",
   },
+  
+  {
+  title: "College Hub – Student Collaboration Platform",
+  description:
+    "Developed a full-stack college community platform that helps students connect, share resources, manage academic discussions, and access important college updates in one place. Built responsive UI components with authentication, dynamic dashboards, and modern user experience optimization.",
+  technologies: [
+    "Next.js",
+    "React.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "Firebase",
+  ],
+  link: "",
+  status: "🔒In Development",
+},
   {
     title: "PawBite – Pet Care & Food Ordering Platform",
     description:
