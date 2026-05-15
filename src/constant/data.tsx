@@ -142,19 +142,19 @@ export const PROJECTS = [
     status: "🔒In Development",
   },
 
-  {
-    title: "UGC.AI – AI UGC Generation Platform",
-    description:
-      "Built a responsive AI-powered UGC content generation landing page with modern UI/UX. Developed reusable components including hero, preview, and CTA sections with optimized responsiveness and branding experience.",
-    technologies: [
-      "Next.js",
-      "React.js",
-      "TypeScript",
-      "Tailwind CSS",
-    ],
-    link: "",
-    status: "🔒In Development",
-  },
+  // {
+  //   title: "UGC.AI – AI UGC Generation Platform",
+  //   description:
+  //     "Built a responsive AI-powered UGC content generation landing page with modern UI/UX. Developed reusable components including hero, preview, and CTA sections with optimized responsiveness and branding experience.",
+  //   technologies: [
+  //     "Next.js",
+  //     "React.js",
+  //     "TypeScript",
+  //     "Tailwind CSS",
+  //   ],
+  //   link: "",
+  //   status: "🔒In Development",
+  // },
 
   {
     title: "Neural Cellular Automata Growth Simulator",
