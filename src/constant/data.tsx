@@ -98,7 +98,7 @@ export const PROJECTS = [
     "PDF Upload",
     "REST API",
   ],
-  link: "hhttps://resume-analyzer-web-eight.vercel.app/",
+  link: "https://resume-analyzer-web-eight.vercel.app/",
   status: "Live",
 },
 
@@ -117,6 +117,23 @@ export const PROJECTS = [
     link: "",
     status: "🔒In Development",
   },
+
+    {
+    title: "PawBite – Pet Care & Food Ordering Platform",
+    description:
+      "A modern pet care platform where users can explore pet products, order pet food, and manage pet-related services.",
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "API Integration",
+    ],
+    link: "https://paw-next.vercel.app/",
+    status: "🔒In Development",
+  },
+
+  
   {
     title: "Digital Detox Tracker",
     description:
@@ -146,20 +163,7 @@ export const PROJECTS = [
     link: "",
     status: "🔒In Development",
   },
-  {
-    title: "PawBite – Pet Care & Food Ordering Platform",
-    description:
-      "A modern pet care platform where users can explore pet products, order pet food, and manage pet-related services.",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "React",
-      "Tailwind CSS",
-      "API Integration",
-    ],
-    link: "https://paw-next.vercel.app/",
-    status: "🔒In Development",
-  },
+
   {
     title: "Neural Cellular Automata Growth Simulator",
     description:
