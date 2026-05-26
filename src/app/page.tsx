@@ -798,7 +798,7 @@ export default function Portfolio() {
       hover:shadow-[0_8px_30px_rgba(240,98,146,.5)]
     "
   >
-    View Resume 📄
+    View Resume 
   </a>
 
   <a
@@ -1009,6 +1009,38 @@ export default function Portfolio() {
               {ABOUT_TEXT}
             </p>
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
+          {[
+              ["3", "Internships Completed"],
+              ["7+", "Projects Built"],
+              ["10+", "Technologies"],
+              ["∞", "Learning & Growing 🌱"],
+              ].map(([num, label]) => (
+              <div key={label} style={{ textAlign: "center" }}>
+               <div
+                 style={{
+                 fontFamily: "'Playfair Display', serif",
+                 fontSize: "2.5rem",
+                 fontWeight: 700,
+                 color: "var(--accent)",
+                 lineHeight: 1,
+                   }}
+                >
+                 {num}
+         </div>
+
+          <div
+            style={{
+            fontSize: ".8rem",
+            color: "var(--text3)",
+            marginTop: ".25rem",
+                 }}
+                 >
+                 {label}
+               </div>
+              </div>
+                  ))}
+             </div>
+            {/* <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               {[
                 ["3+", "Years Experience"],
                 ["4+", "Projects Shipped"],
@@ -1038,7 +1070,7 @@ export default function Portfolio() {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
 
