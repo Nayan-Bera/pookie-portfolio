@@ -741,7 +741,7 @@ export default function Portfolio() {
           </p>
 
           {/* Buttons */}
-          <div className="flex flex-wrap gap-4 animate-[fadeSlideUp_.7s_ease_.4s_both]">
+          {/* <div className="flex flex-wrap gap-4 animate-[fadeSlideUp_.7s_ease_.4s_both]">
             <a
               href="#projects"
               className="
@@ -778,7 +778,48 @@ export default function Portfolio() {
             >
               Say Hello 🌸
             </a>
-          </div>
+          </div> */}
+  <div className="flex flex-wrap gap-4 animate-[fadeSlideUp_.7s_ease_.4s_both]">
+  <a
+    href="/resume/Srilekha-Paul-Resume.pdf"
+    download
+    target="_blank"
+    rel="noopener noreferrer"
+    className="
+      inline-flex items-center gap-2
+      px-8 py-3
+      rounded-full
+      text-sm font-semibold
+      text-white
+      bg-gradient-to-br from-pink-400 to-pink-600
+      shadow-[0_4px_20px_rgba(240,98,146,.4)]
+      transition-all duration-300
+      hover:-translate-y-1
+      hover:shadow-[0_8px_30px_rgba(240,98,146,.5)]
+    "
+  >
+    View Resume 📄
+  </a>
+
+  <a
+    href="mailto:srilekhapaul2003@gmail.com"
+    className="
+      inline-flex items-center gap-2
+      px-8 py-3
+      rounded-full
+      text-sm font-semibold
+      border
+      border-[var(--border)]
+      bg-[var(--surface)]
+      text-[var(--text)]
+      transition-all duration-300
+      hover:bg-[var(--surface2)]
+      hover:-translate-y-1
+    "
+  >
+    Say Hello 🌸
+  </a>
+</div>
         </div>
 
         {/* Teddy */}
