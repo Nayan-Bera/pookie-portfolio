@@ -129,7 +129,7 @@ export const PROJECTS = [
       "Tailwind CSS",
       "API Integration",
     ],
-    link: "https://paw-next.vercel.app/",
+    link: "https://paw-food-court.vercel.app/",
     status: "🔒In Development",
   },
 
