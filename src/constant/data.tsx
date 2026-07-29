@@ -71,20 +71,20 @@ export const PROJECTS = [
     link: "https://sri-paul.vercel.app",
     status: "Live",
   },
-  {
-    title: "NexaFlow CRM — Role-Based Operations & Workflow Manager",
-    description:
-      "Built a scalable CRM application featuring role-based access control (RBAC), task management pipelines, and workflow automation. Developed secure REST APIs and implemented modular backend architecture.",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "REST API",
-      "RBAC",
-      "Git",
-    ],
-    link: "https://naystack.vercel.app/",
-    status: "Live",
-  },
+  // {
+  //   title: "NexaFlow CRM — Role-Based Operations & Workflow Manager",
+  //   description:
+  //     "Built a scalable CRM application featuring role-based access control (RBAC), task management pipelines, and workflow automation. Developed secure REST APIs and implemented modular backend architecture.",
+  //   technologies: [
+  //     "Next.js",
+  //     "TypeScript",
+  //     "REST API",
+  //     "RBAC",
+  //     "Git",
+  //   ],
+  //   link: "https://naystack.vercel.app/",
+  //   status: "Live",
+  // },
 
   {
   title: "AI Resume Analyzer & Job Matcher",
@@ -164,19 +164,19 @@ export const PROJECTS = [
     status: "🔒In Development",
   },
 
-  {
-    title: "Neural Cellular Automata Growth Simulator",
-    description:
-      "Trained a PyTorch neural network to simulate self-organizing cell growth from a single seed using Neural Cellular Automata.",
-    technologies: [
-      "Python",
-      "PyTorch",
-      "NumPy",
-      "Streamlit",
-    ],
-    link: "",
-    status: "🔒In Development",
-  },
+  // {
+  //   title: "Neural Cellular Automata Growth Simulator",
+  //   description:
+  //     "Trained a PyTorch neural network to simulate self-organizing cell growth from a single seed using Neural Cellular Automata.",
+  //   technologies: [
+  //     "Python",
+  //     "PyTorch",
+  //     "NumPy",
+  //     "Streamlit",
+  //   ],
+  //   link: "",
+  //   status: "🔒In Development",
+  // },
 ];
 
 /* ================= EXPERIENCE ================= */
