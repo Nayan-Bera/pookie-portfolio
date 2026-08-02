@@ -114,8 +114,8 @@ export const PROJECTS = [
       "Vite",
       "Responsive Design",
     ],
-    link: "",
-    status: "🔒In Development",
+    link: "https://luxuryweb-tau.vercel.app/",
+    status:"Live",
   },
 
     {
