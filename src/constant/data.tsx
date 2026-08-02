@@ -86,10 +86,10 @@ export const PROJECTS = [
   //   status: "Live",
   // },
 
-  {
-  title: "AI Resume Analyzer & Job Matcher",
+{
+  title: "AI Resume Analyzer & ATS Checker",
   description:
-    "Built an AI-powered resume analyzer that lets users upload resumes, receive ATS score analysis, get personalized AI feedback, and discover matched job opportunities instantly. Designed an intuitive upload experience with responsive UI and real-time result generation.",
+    "Built an AI-powered resume analyzer that allows users to upload resumes, receive an ATS compatibility score, identify strengths and weaknesses, and get AI-generated suggestions to improve resume quality, formatting, and skill presentation through a responsive and intuitive interface.",
   technologies: [
     "Next.js",
     "TypeScript",
@@ -98,7 +98,7 @@ export const PROJECTS = [
     "PDF Upload",
     "REST API",
   ],
-  link: "https://resume-analyzer-web-eight.vercel.app/",
+  link: "https://aicvanalyzer.vercel.app/",
   status: "Live",
 },
 
@@ -129,26 +129,26 @@ export const PROJECTS = [
       "Tailwind CSS",
       "API Integration",
     ],
-    link: "https://paw-food-court.vercel.app/",
+    // link: "https://paw-food-court.vercel.app/",
     status: "🔒In Development",
   },
 
   
-  {
-    title: "Digital Detox Tracker",
-    description:
-      "A productivity tracking web application that monitors screen usage and provides AI-based suggestions to improve focus and reduce digital distractions.",
-    technologies: [
-      "Python",
-      "Flask",
-      "JavaScript",
-      "Chart.js",
-      "HTML",
-      "CSS",
-    ],
-    link: "",
-    status: "🔒In Development",
-  },
+  // {
+  //   title: "Digital Detox Tracker",
+  //   description:
+  //     "A productivity tracking web application that monitors screen usage and provides AI-based suggestions to improve focus and reduce digital distractions.",
+  //   technologies: [
+  //     "Python",
+  //     "Flask",
+  //     "JavaScript",
+  //     "Chart.js",
+  //     "HTML",
+  //     "CSS",
+  //   ],
+  //   link: "",
+  //   status: "🔒In Development",
+  // },
   {
     title: "College Hub – Student Collaboration Platform",
     description:
@@ -163,6 +163,23 @@ export const PROJECTS = [
     link: "",
     status: "🔒In Development",
   },
+
+  {
+  title: "Creative Digital Art Generation using NCA & LPPN",
+  description:
+    "Developed an AI-based digital art generation system using Neural Cellular Automata (NCA) and Latent Perceptual Prediction Network (LPPN). The model learns to generate and evolve creative artistic images through self-organizing neural patterns while improving visual quality using perceptual learning techniques.",
+  technologies: [
+    "Python",
+    "PyTorch",
+    "Neural Cellular Automata (NCA)",
+    "LPPN",
+    "Deep Learning",
+    "Computer Vision",
+  ],
+  link: "",
+  status: "College Project",
+},
+
 
   // {
   //   title: "Neural Cellular Automata Growth Simulator",
